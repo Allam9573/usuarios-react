@@ -15,7 +15,7 @@ export const Usuarios = () => {
     }
     return (
         <>
-            <div className="card w-25 m-3">
+            <div className="card w-100 m-3">
                 <div className="card-header">
                     <h3>Nuevo Usuario</h3>
                 </div>
