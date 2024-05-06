@@ -1,6 +1,9 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import UsuarioService from '../services/UsuarioService'
+import { useNavigate } from "react-router-dom";
 export const Usuarios = () => {
+
+    const navigate = useNavigate()
 
     const [usuario, setUsuario] = useState('')
     const [correo, setCorreo] = useState('')
@@ -20,7 +23,9 @@ export const Usuarios = () => {
         })
         setUsuario('')
         setCorreo('')
+        setTelefono('')
     }
+    useEffect()
     return (
         <>
             <div className="card w-100 m-3">
