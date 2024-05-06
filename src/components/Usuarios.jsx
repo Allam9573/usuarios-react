@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react"
 import UsuarioService from '../services/UsuarioService'
-import { useNavigate } from "react-router-dom";
-export const Usuarios = () => {
 
-    const navigate = useNavigate()
+export const Usuarios = () => {
 
     const [usuario, setUsuario] = useState('')
     const [correo, setCorreo] = useState('')
     const [telefono, setTelefono] = useState('')
 
+    const [usuarios, setUsuarios] = useState([])
+
     const agregarUsuario = (e) => {
         e.preventDefault()
+        if (usuario.length === 0 || correo.length === 0 || telefono.length === 0) return
         const usuarioPost = {
             nombre: usuario,
             correo,
@@ -25,7 +26,13 @@ export const Usuarios = () => {
         setCorreo('')
         setTelefono('')
     }
-    useEffect()
+    useEffect(() => {
+        UsuarioService.getUsuarios().then(response => {
+            setUsuarios(response.data)
+        }).catch(error => {
+            console.log(error)
+        })
+    }, [])
     return (
         <>
             <div className="card w-100 m-3">
@@ -42,18 +49,19 @@ export const Usuarios = () => {
                 </div>
             </div>
             {
-                // usuarios.length === 0 ?
-                //     <h5>No hay usuarios registrados</h5> :
-                //     <div className="d-flex justify-content-start w-100 flex-wrap w-75 mx-auto">
-                //         {
-                //             usuarios.map(user =>
-                //                 <div key={user.id} className="card p-3 m-3">
-                //                     <h5>Nombre: <span className="lead">{user.usuario}</span></h5>
-                //                     <h5>Correo Electronico: <span className="lead">{user.correo}</span></h5>
-                //                 </div>
-                //             )
-                //         }
-                //     </div>
+                usuarios.length === 0 ?
+                    <h5 className="mx-3 text-secondary">No hay usuarios registrados</h5> :
+                    <div className="d-flex justify-content-start w-100 flex-wrap w-75 mx-auto">
+                        {
+                            usuarios.map(user =>
+                                <div key={user.id} className="card p-3 m-3">
+                                    <h5>Nombre: <span className="lead">{user.nombre}</span></h5>
+                                    <h5>Correo Electronico: <span className="lead">{user.correo}</span></h5>
+                                    <h5>Telefono: <span className="lead">{user.telefono}</span></h5>
+                                </div>
+                            )
+                        }
+                    </div>
             }
         </>
     )
