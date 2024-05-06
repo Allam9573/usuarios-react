@@ -13,6 +13,7 @@ export const Usuarios = () => {
         e.preventDefault()
         if (usuario.length === 0 || correo.length === 0 || telefono.length === 0) return
         const usuarioPost = {
+            id: usuarios.length + 1,
             nombre: usuario,
             correo,
             telefono
@@ -33,6 +34,9 @@ export const Usuarios = () => {
             console.log(error)
         })
     }, [])
+    const eliminar = (id) => {
+        UsuarioService.eliminarUsuario(id)
+    }
     return (
         <>
             <div className="card w-100 m-3">
@@ -54,10 +58,11 @@ export const Usuarios = () => {
                     <div className="d-flex justify-content-start w-100 flex-wrap w-75 mx-auto">
                         {
                             usuarios.map(user =>
-                                <div key={user.id} className="card p-3 m-3">
+                                <div key={user.idUsuario} className="card p-3 m-3">
                                     <h5>Nombre: <span className="lead">{user.nombre}</span></h5>
                                     <h5>Correo Electronico: <span className="lead">{user.correo}</span></h5>
                                     <h5>Telefono: <span className="lead">{user.telefono}</span></h5>
+                                    <button className="btn btn-danger" onClick={() => eliminar(user.idUsuario)}>Eliminar</button>
                                 </div>
                             )
                         }
